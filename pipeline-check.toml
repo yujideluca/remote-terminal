@@ -21,3 +21,6 @@ required_check = "gate"
 
 [pre_push]
 guard = []
+
+[shellcheck]
+extra_files = ["tools/hooks/pre-push"]
