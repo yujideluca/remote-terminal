@@ -1,0 +1,23 @@
+# Limits for pipeline-check (github.com/yujideluca/pipeline-check). Changed only by Giovanni, in a commit that says why.
+projeto = "remote-terminal"
+aviso_a = 0.8
+
+[gate]
+command = "tools/quality_gate.sh"
+required = true
+
+[architecture]
+pure_dirs = []
+
+[[fitness]]
+id = "gate-segundos"
+kind = "gate_seconds"
+limit = 300
+
+[github]
+repo = "yujideluca/remote-terminal"
+branch = "main"
+required_check = "gate"
+
+[pre_push]
+guard = []

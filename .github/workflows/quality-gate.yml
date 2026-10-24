@@ -1,0 +1,26 @@
+name: quality-gate
+
+# Runs pipeline-check, which runs tools/quality_gate.sh once and the fitness checks and writes report.json.
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pipeline-check
+          key: pipeline-check-${{ hashFiles('pipeline-check.version') }}
+      - run: tools/pipeline-check.sh --mode ci
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-report
+          path: build/pipeline-check/report.json
+          retention-days: 14
